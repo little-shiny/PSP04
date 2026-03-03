@@ -2,6 +2,7 @@ package com.actividad41;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Random;
 
@@ -57,8 +58,16 @@ public class HiloAdivina extends Thread {
 
             miCliente.close(); // Cerramos el hilo de ese cliente
 
-        } catch (Exception e) { // Sí hay error en la conexión
-            System.out.println("Error en el hilo cliente: " + e.getMessage());
+        } catch (IOException e){
+            System.out.println("El cliente se ha desconectado.");
+        } catch (Exception e) {
+            System.out.println("Error en el hilo: " + e.getMessage());
+        } finally {
+            try{
+                miCliente.close();
+            }catch(IOException e){
+                System.out.println("Error al cerrar el socket");
+            }
         }
     }
 }
