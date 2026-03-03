@@ -1,8 +1,6 @@
 package com.actividad41;
 
-import java.io.*;
 import java.net.*;
-import java.util.Random;
 
 public class ServidorAdivina {
     public static void main(String[] args) {
