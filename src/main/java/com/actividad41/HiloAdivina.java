@@ -47,6 +47,7 @@ public class HiloAdivina extends Thread {
                             "intentos");
                 } else {
                     flujoSalida.writeUTF("Ese era el número! Lo has encontrado en " + intentos + " intentos");
+                    adivinado = true; //Faltaba actualizar la variable
                 }
             }
 
