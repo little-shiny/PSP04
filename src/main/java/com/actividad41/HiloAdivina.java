@@ -19,6 +19,8 @@ public class HiloAdivina extends Thread {
         try {
             // Creamos el número secreto diferente para cada cliente
             int secreto = new Random().nextInt(101); // Entre 1 y 100
+            System.out.println("Hilo ID: "+ Thread.currentThread().getId()); //Añadimos la ID del hilo para saber que
+            // el servidor tiene más de un cliente
             System.out.println("Número secreto para este cliente: " + secreto);
 
             DataInputStream flujoEntrada = new DataInputStream(miCliente.getInputStream());
