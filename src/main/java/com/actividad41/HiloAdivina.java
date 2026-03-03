@@ -44,7 +44,7 @@ public class HiloAdivina extends Thread {
                             "intentos");
                 } else if (numeroRecibido > secreto) {
                     flujoSalida.writeUTF("Te has pasado, el número es menor. Llevas " + intentos +
-                            "intentos");
+                            " intentos");
                 } else {
                     flujoSalida.writeUTF("Ese era el número! Lo has encontrado en " + intentos + " intentos");
                     adivinado = true; //Faltaba actualizar la variable

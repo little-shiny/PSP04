@@ -15,6 +15,7 @@ public class ClienteAdivina {
             Scanner teclado = new Scanner(System.in);
 
             String feedback = "";
+            boolean ganado = false;
 
             // Mientras no recibamos la palabra "era", seguimos pidiendo números
             while (true) {
@@ -28,16 +29,21 @@ public class ClienteAdivina {
                     System.out.println("Respuesta del servidor: " + feedback);
 
                     if(feedback.contains("Ese era el número")){
+                        ganado = true;
                         break;
                     }
                 } catch (Exception e) {
                     System.out.println("El servidor ha cerrado la conexión");
                     break;
                 }
-
             }
 
-            System.out.println("Has ganado!");
+            if(ganado){
+                System.out.println("Has ganado!");
+            }else{
+                System.out.println("Has perdido!");
+            }
+
             socketCliente.close();
             teclado.close();
 
