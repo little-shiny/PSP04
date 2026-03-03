@@ -17,17 +17,29 @@ public class ClienteAdivina {
             String feedback = "";
 
             // Mientras no recibamos la palabra "era", seguimos pidiendo números
-            while (!feedback.contains("era")) {
-                System.out.print("Dime un número del 0 al 100: ");
-                int miNumero = teclado.nextInt();
-                enviar.writeInt(miNumero);
+            while (true) {
 
-                feedback = recibir.readUTF();
-                System.out.println("Respuesta del servidor: " + feedback);
+                try{
+                    System.out.print("Dime un número del 0 al 100: ");
+                    int miNumero = teclado.nextInt();
+                    enviar.writeInt(miNumero);
+
+                    feedback = recibir.readUTF();
+                    System.out.println("Respuesta del servidor: " + feedback);
+
+                    if(feedback.contains("Ese era el número")){
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("El servidor ha cerrado la conexión");
+                    break;
+                }
+
             }
 
             System.out.println("Has ganado!");
             socketCliente.close();
+            teclado.close();
 
         } catch (Exception e) {
             System.out.println("No puede conectar ¿Está el servidor encendido?");
