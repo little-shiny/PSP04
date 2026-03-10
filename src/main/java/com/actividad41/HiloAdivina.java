@@ -19,8 +19,8 @@ public class HiloAdivina extends Thread {
 
         try {
             // Creamos el número secreto diferente para cada cliente
-            int secreto = new Random().nextInt(101); // Entre 1 y 100
-            System.out.println("Hilo ID: "+ Thread.currentThread().getId()); //Añadimos la ID del hilo para saber que
+            int secreto = new Random().nextInt(100) + 1; // Entre 1 y 100
+            System.out.println("Hilo ID: "+ Thread.currentThread().threadId()); //Añadimos la ID del hilo para saber que
             // el servidor tiene más de un cliente
             System.out.println("Número secreto para este cliente: " + secreto);
 
@@ -42,7 +42,7 @@ public class HiloAdivina extends Thread {
 
                 if (numeroRecibido < secreto) {
                     flujoSalida.writeUTF("Te has quedado corto, el número es mayor. Llevas " + intentos +
-                            "intentos");
+                            " intentos");
                 } else if (numeroRecibido > secreto) {
                     flujoSalida.writeUTF("Te has pasado, el número es menor. Llevas " + intentos +
                             " intentos");
@@ -55,8 +55,6 @@ public class HiloAdivina extends Thread {
             if (!adivinado) { // si no consigue advinarlo y el if anterior se ha consumido
                 flujoSalida.writeUTF("Ya no te quedan más intentos. El número era: " + secreto);
             }
-
-            miCliente.close(); // Cerramos el hilo de ese cliente
 
         } catch (IOException e){
             System.out.println("El cliente se ha desconectado.");

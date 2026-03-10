@@ -14,7 +14,7 @@ public class ClienteAdivina {
             DataInputStream recibir = new DataInputStream(socketCliente.getInputStream());
             Scanner teclado = new Scanner(System.in);
 
-            String feedback = "";
+            String feedback;
             boolean ganado = false;
 
             // Mientras no recibamos la palabra "era", seguimos pidiendo números
