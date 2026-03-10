@@ -4,6 +4,7 @@ import java.net.*;
 
 public class ServidorAdivina {
     public static void main(String[] args) {
+        //Se utiliza try-with-resources porque así el servidor se cierra porque ocn el while no lo hace
         try (ServerSocket socketServidor = new ServerSocket(2000)){
             System.out.println("Esperando a que alguien se conecte para jugar...");
 

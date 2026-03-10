@@ -28,7 +28,7 @@ public class HiloAdivina extends Thread {
             DataOutputStream flujoSalida = new DataOutputStream(miCliente.getOutputStream());
 
             int numeroRecibido;
-            int intentos = 0;
+            int intentos = 1;
             final int MAX_INTENTOS = 5; // Determinamos el número maximo de intentos para adivinar el numero
             boolean adivinado = false;
 
