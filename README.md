@@ -20,3 +20,30 @@ Socket miCliente = socketServidor.accept();
 
 Modificaremos el main de manera que varios clientes estén de forma simultánea y que cada cliente tenga un número 
 secreto mediante la creación de un HiloAdivina.java que es el que maneja esa concurrencia.
+
+Diagrama de estados ejercicio 4.3
+```mermaid
+stateDiagram-v2
+    direction TB
+    
+    [*] --> Login
+    
+    logok: Credenciales correctas
+    logno: Credenciales incorrectas
+    Login --> logok
+    Login --> logno
+    logno --> [*] : Tres intentos
+    
+    logok --> menu
+    opc1: Ver contenido del directorio
+    opc2: Mostrar contenido del archivo
+    opc3: Salir
+    menu --> opc1
+    menu --> opc2
+    menu --> opc3
+    
+    opc1 -->menu
+    opc2 --> menu
+    opc3 --> [*]
+    
+```
