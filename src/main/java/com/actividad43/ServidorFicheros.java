@@ -1,7 +1,5 @@
 package com.actividad43;
 
-import com.actividad42.HiloFicheros;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,7 +14,6 @@ public class ServidorFicheros {
                 System.out.println("Cliente conectado desde: " + miCliente.getInetAddress());
                 new HiloServidor(miCliente).start(); // cada cliente está en un hilo diferente
             }
-
 
         } catch (Exception e) {
             System.out.println("Ha habido un fallo en el servidor: " + e.getMessage());

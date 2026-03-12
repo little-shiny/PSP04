@@ -1,0 +1,13 @@
+----------------------------
+
+Este es un archivo de prueba
+----------------------------
+
+El servidor lee línea a línea el contenido del fichero
+y manda de forma secuencial las líneas al cliente, que imprime en su terminal
+
+Es un ejemplo de como funciona la comunicación entre un servidor y un terminal que se conecta a él
+
+Mediante mensajes de control como "MENU", "LOGIN" o "FIN" podemos saber en que "fase" de la comunicación estamos
+
+Tarea PSP04
