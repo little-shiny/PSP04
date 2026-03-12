@@ -55,7 +55,25 @@ public class ClienteFicheros {
             //Menu
             if(esCorrecto){
                 while(estado.equals("MENU")){
+                    System.out.println("-------------------------------------------");
+                    System.out.println("                 MENU                      ");
+                    System.out.println("-------------------------------------------");
+                    System.out.println("[1] Ver contenido del directorio actual");
+                    System.out.println("[2] Mostrar contenido de un archivo");
+                    System.out.println("[3] Salir");
+                    System.out.println();
+                    System.out.println("Escoja una opción: ");
+                    int opcion = sc.nextInt();
 
+                    switch (opcion){
+                        case 1: //Muestra archivos del directorio
+                            break;
+                        case 2: // mostrar contenido de un archivo
+                            break;
+                        case 3: // salir del programa
+
+                        default: System.out.println("Opción no válida");
+                    }
                 }
             }
 
