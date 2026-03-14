@@ -1,9 +1,21 @@
-# Tarea PSP04 - Trabajo concurrente en servidor/cliente
-## Índice
 
+# Índice
 
+- [Índice](#índice)
+- [Actividad 4.1](#actividad-41)
+  - [`ServidorAdivina.java`](#servidoradivinajava)
+  - [Dificultades encontradas](#dificultades-encontradas)
+- [Actividad 4.2](#actividad-42)
+  - [`HiloFicheros.java`](#hiloficherosjava)
+- [Actividad 4.3](#actividad-43)
+  - [Diagrama de estados](#diagrama-de-estados)
+  - [Funcionamiento](#funcionamiento)
+  - [`HiloServidor.java`](#hiloservidorjava)
+- [Conclusión](#conclusión)
 
-## Actividad 4.1
+<div style="page-break-after: always;"></div>
+
+# Actividad 4.1
 Se pide modificar el ejercicio 3.1 (PSP03) para trabajar de forma concurrente con varios clientes.
 
 La interpretación que se hace del enunciado implica:
@@ -11,16 +23,14 @@ La interpretación que se hace del enunciado implica:
 - Crea un hilo por cada cliente
 - Puede atender a diferentes clientes a la vez
 
-En el ejercicio 3.1, el funcionamiento era sencillo, el cliente se conectaba al servidor e iba mandando números del 
-1 al 100 que debían coincidir con el elegido por el servidor.
+En el ejercicio 3.1, el funcionamiento era sencillo, el cliente se conectaba al servidor e iba mandando números del 1 al 100 que debían coincidir con el elegido por el servidor.
 
-Modificaremos el main de manera que varios clientes estén de forma simultánea y que cada cliente tenga un número 
-secreto mediante la creación de un `HiloAdivina.java` que es el que maneja esa concurrencia.
+Modificaremos el main de manera que varios clientes estén de forma simultánea y que cada cliente tenga un número secreto mediante la creación de un `HiloAdivina.java` que es el que maneja esa concurrencia.
 
-El cambio principal es la clase HiloAdivina donde cada hilo gestiona a un cliente de forma separada y se lanza por 
-el servidor cuando se conecta.
+El cambio principal es la clase HiloAdivina donde cada hilo gestiona a un cliente de forma separada y se lanza por el servidor cuando se conecta.
 
-### `ServidorAdivina.java`
+
+## `ServidorAdivina.java`
 ```java
 public class ServidorAdivina {
     public static void main(String[] args) {
@@ -40,28 +50,23 @@ public class ServidorAdivina {
     }
 }
 ```
-En la clase auxiliar `HiloAdivina.java` se implementa la lógica de la conversación con el cliente que ya estaba en 
-el ejercicio anterior.
+En la clase auxiliar `HiloAdivina.java` se implementa la lógica de la conversación con el cliente que ya estaba en el ejercicio anterior.
 
-Al iniciar el servidor y conectarse tres clientes de forma simultánea, vemos que cada uno funciona de forma 
-independiente:
+Al iniciar el servidor y conectarse tres clientes de forma simultánea, vemos que cada uno funciona de forma independiente:
 ![img.png](img/img.png)
 
-### Dificultades encontradas 
-Durante el desarrollo de esta actividad se encontró un problema en el servidor porque se intentó manejar el 
-`ServerSocket` sin `try-with-resources `y dejaba el puerto ocupado por lo que el servidor fallaba. 
+## Dificultades encontradas
+Durante el desarrollo de esta actividad se encontró un problema en el servidor porque se intentó manejar el `ServerSocket` sin `try-with-resources `y dejaba el puerto ocupado por lo que el servidor fallaba.
+<div style="page-break-after: always;"></div>
 
 
-## Actividad 4.2
+# Actividad 4.2
 
-En este ejercicio se implementaba el mismo patrón que en el anterior, siguiendo la misma linea con la clase  
-`HiloFicheros.java`, ya que la peculiaridad de este ejercicio frente al anterior era precisamente la lectura de los 
-ficheros.
+En este ejercicio se implementaba el mismo patrón que en el anterior, siguiendo la misma linea con la clase `HiloFicheros.java`, ya que la peculiaridad de este ejercicio frente al anterior era precisamente la lectura de los ficheros.
 
-La clase del servidor es idéntica a la de la actividad 4.1, y se maneja el control de excepciones en el 
-`HiloFicheros` con un try-catch:
+La clase del servidor es idéntica a la de la actividad 4.1, y se maneja el control de excepciones en el `HiloFicheros` con un try-catch:
 
-### `HiloFicheros.java`
+## `HiloFicheros.java`
 ```java
 public class HiloFicheros extends Thread {
     private final Socket miCliente;
@@ -106,63 +111,32 @@ public class HiloFicheros extends Thread {
     }
 }
 ```
-Se tuvo que añadir un finally con el cierre del servidor porque lo que ocurría es el socket no se cerraba si saltaba 
-una excepción antes del `close()`, quedando el hilo abierto.
+Se tuvo que añadir un finally con el cierre del servidor porque lo que ocurría es el socket no se cerraba si saltaba una excepción antes del `close()` quedando el hilo abierto.
 
-## Actividad 4.3
+<div style="page-break-after: always;"></div>
 
-En la actividad se usa de base el código del ejercicio anterior con algunas modificaciones respecto a él para 
-manejar también un inicio de sesión.
 
-El funcionamiento es sencillo, mediante una palabra "Clave" que recibe el cliente y el servidor, se va pasando por 
-las diferentes etapas de la aplicación. Son los estados `LOGIN`, `MENU` y `SALIR`.
+# Actividad 4.3
 
-Para poder iniciar el desarrollo, se procede al diseño del diagrama que ilustra de forma más visual este "cambio de 
-fases":
+En la actividad se usa de base el código del ejercicio anterior con algunas modificaciones respecto a él para manejar también un inicio de sesión.
 
-### Diagrama de estados 
-```mermaid
-stateDiagram-v2
-    direction TB
-    
-    [*] --> LOGIN
-    
-    logok: Credenciales correctas
-    logno: Credenciales incorrectas
-    LOGIN --> logok
-    LOGIN --> logno
-    logno --> [*] : Tres intentos
-    
-    logok --> MENU
-    opc1: Ver contenido del directorio
-    opc2: Mostrar contenido del archivo
-    opc3: Salir
-    MENU --> opc1
-    MENU --> opc2
-    MENU --> opc3
-    
-    opc1 -->MENU
-    opc2 --> MENU
-    opc3 --> [*]
-    
-```
+El funcionamiento es sencillo, mediante una palabra "Clave" que recibe el cliente y el servidor, se va pasando por las diferentes etapas de la aplicación. Son los estados `LOGIN`, `MENU` y `SALIR`.
 
-### Funcionamiento
-En el inicio se intentó hacer la validación de las credenciales en el cliente, pero claro, si las credenciales se 
-almacenaban en el código del cliente, por un tema de seguridad, no tendría sentido porque cada cliente, tuviese o no 
-las credenciales, podrían ser accesibles desde ellos mismos, por lo tanto la lógica se implementa dentro del mismo 
-`HiloServidor.java`. 
+Para poder iniciar el desarrollo, se procede al diseño del diagrama que ilustra de forma más visual este "cambio de fases":
 
-La validación de credenciales se realiza en el servidor y responde `"OK"` o `"FAIL"`. Ambos gestionan con contadores 
-y bucles el máximo establecido de tres intentos antes de terminar el proceso.
+## Diagrama de estados
+![alt text](<img/User Authentication Flow-2026-03-14-174215.png>)
 
-Una vez autenticado, el cliente accede al menú donde se le permite realizar las tres opciones principales: Ver el 
-contenido de un directorio, leer un archivo o salir. 
+## Funcionamiento
+En el inicio se intentó hacer la validación de las credenciales en el cliente, pero claro, si las credenciales se almacenaban en el código del cliente, por un tema de seguridad, no tendría sentido porque cada cliente, tuviese o no las credenciales, podrían ser accesibles desde ellos mismos, por lo tanto la lógica se implementa dentro del mismo `HiloServidor.java`.
 
-Para delimitar el fin de cada respuesta se usa el delimitador `"FIN"`, de manera que el cliente sigue leyendo los 
-mensajes del servidor (que manda la información de las peticiones) hasta que el cliente recibe ese mensaje de `"FIN"`.
+La validación de credenciales se realiza en el servidor y responde `"OK"` o `"FAIL"`. Ambos gestionan con contadores y bucles el máximo establecido de tres intentos antes de terminar el proceso.
 
-### `HiloServidor.java`
+Una vez autenticado, el cliente accede al menú donde se le permite realizar las tres opciones principales: Ver el contenido de un directorio, leer un archivo o salir.
+
+Para delimitar el fin de cada respuesta se usa el delimitador `"FIN"`, de manera que el cliente sigue leyendo los mensajes del servidor (que manda la información de las peticiones) hasta que el cliente recibe ese mensaje de `"FIN"`.
+
+## `HiloServidor.java`
 
 Para controlar la lógica, se implementa en el método `run()`
 ```java
@@ -199,8 +173,9 @@ public void run() {
         }
     }
 ```
-El hilo se conforma de una función `login(BufferedReader bf, PrintWriter pw, Socket cliente)` que devuelve un 
-boolean si se completa la autenticación o no.
+<div style="page-break-after: always;"></div>
+
+El hilo se conforma de una función `login(BufferedReader bf, PrintWriter pw, Socket cliente)` que devuelve un boolean si se completa la autenticación o no.
 ```java
  public boolean login(BufferedReader bf, PrintWriter pw, Socket cliente) {
         final String USER = "admin";
@@ -227,7 +202,7 @@ boolean si se completa la autenticación o no.
     }
 ```
 
-El menú es controlado mediante un switch-case:
+El menú es controlado mediante un `switch-case`:
 ```java
 private void menu(BufferedReader lector, PrintWriter escritor) throws IOException {
         String opcion;
@@ -250,8 +225,7 @@ private void menu(BufferedReader lector, PrintWriter escritor) throws IOExceptio
         }
     }
 ```
-Como novedad frente a la actividad PSP03 se implementa un método que muestra por pantalla los archivos del 
-directorio del servidor: 
+Como novedad frente a la actividad PSP03 se implementa un método que muestra por pantalla los archivos del directorio del servidor:
 ```java
 public void listaDirectorio(PrintWriter pw) {
         try {
@@ -278,17 +252,16 @@ El método para leer un archivo y mostrarlo al cliente se ha reutilizado del eje
 
 El funcionamiento al probarlo es el siguiente:
 ![Captura de pantalla 2026-03-14 182124.png](img/Captura%20de%20pantalla%202026-03-14%20182124.png)
+<div style="page-break-after: always;"></div>
 
-Para leer un archivo se usa un fichero de texto en el directorio raíz del proyecto `prueba.txt` con el siguiente 
-contenido:
+Para leer un archivo se usa un fichero de texto en el directorio raíz del proyecto `prueba.txt` con el siguiente contenido:
 ```text
 ----------------------------
 
 Este es un archivo de prueba
 ----------------------------
 
-El servidor lee línea a línea el contenido del fichero
-y manda de forma secuencial las líneas al cliente, que imprime en su terminal
+El servidor lee línea a línea el contenido del fichero y manda de forma secuencial las líneas al cliente, que imprime en su terminal
 
 Es un ejemplo de como funciona la comunicación entre un servidor y un terminal que se conecta a él
 
@@ -304,14 +277,12 @@ Al probarlo se ve como lo imprime correctamente:
 También maneja si el archivo no existe:
 ![img.png](img/2.png)
 
+<div style="page-break-after: always;"></div>
 
-## Conclusión
-Con estas tres actividades se ha construido un servidor que puede atender a varios clientes con los hilos. Además, se 
-ha comprobado la importancia de cerrar bien los sockets y los puertos, y la utilización de "claves" para poder 
-controlar el flujo de la comunicación entre el cliente y el servidor.
+# Conclusión
+Con estas tres actividades se ha construido un servidor que puede atender a varios clientes con los hilos. Además, 
+se ha comprobado la importancia de cerrar bien los sockets y los puertos, y la utilización de "claves" para poder controlar el fslujo de la comunicación entre el cliente y el servidor.
 
-Los errores que se han ido encontrando son, por ejemplo el problema al usar `nextInt()` al enviar y recibir mensajes,
-si se quería usarlo, como se intentó al inicio, al pulsar la tecla enter se queda en el buffer y lo recoge el 
-siguiente `nextLine()` por lo que devolvía una cadena vacía. Para eso se usó `Integer.parseInt(sc.nextLine())`.
+Los errores que se han ido encontrando son, por ejemplo el problema al usar `nextInt()` al enviar y recibir mensajes,si se quería usarlo, como se intentó al inicio, al pulsar la tecla enter se queda en el buffer y lo recoge el siguiente `nextLine()` por lo que devolvía una cadena vacía. Para eso se usó `Integer.parseInt(sc.nextLine())`.
 
 Este error ayudó a conocer mejor como funciona la lógica de la comunicación en red.
