@@ -13,8 +13,6 @@ public class HiloServidor extends Thread {
 
     public void run() {
         final int MAX_INTENTOS = 3;
-
-
         try {
             BufferedReader lector = new BufferedReader(new InputStreamReader(miCliente.getInputStream()));
             PrintWriter escritor = new PrintWriter(miCliente.getOutputStream(), true);
